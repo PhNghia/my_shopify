@@ -1,13 +1,16 @@
 import './App.css';
-import { Link } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import Home from "./Home"
+import About from "./About"
 
 function App() {
   return (
-    <div>
-      <Link to="/about">About</Link>
-      <h2>Github Pages</h2>
-      <h3>Deploying React to Github</h3>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/" component={<Home />} />
+        <Route path="/about" component={<About />} />
+      </Routes>
+    </HashRouter>
   );
 }
 
