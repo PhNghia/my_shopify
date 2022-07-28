@@ -1,0 +1,221 @@
+.navbar {
+    position: relative;
+    height: 50px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.75rem;
+}
+
+.navbar > a {
+    position: absolute;
+    left: 1rem;
+    color: var(--primary);
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-right: 2rem;
+}
+
+.navbar > h3 {
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    padding: 1rem 12px;
+}
+
+.order-list {
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 20px;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.order-item {
+    padding: 10px 0rem;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.order-item~.order-item {
+    margin-top: 2rem;
+}
+
+.order-item>input {
+    width: 20px;
+    height: 20px;
+}
+
+.order-item>img {
+    width: 80px;
+    display: block;
+    margin-right: 1rem;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.product-name {
+    font-size: 15px;
+    height: auto;
+    font-weight: 600;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.show-price {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0 6px;
+}
+
+.show-old-price {
+    font-size: 14px;
+    color: #888;
+    text-decoration: line-through;
+    margin-right: 0.5rem;
+}
+
+.show-new-price {
+    font-size: 16px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.show-old-price>span,
+.show-new-price>span {
+    font-size: 10px;
+    position: relative;
+    top: -2px;
+}
+
+.quantity {
+    color: #333;
+}
+
+.quantity>i {
+    font-size: 12px;
+}
+
+.quantity>span {
+    font-size: 16px;
+}
+
+.total-price {
+    max-width: 300px;
+    display: flex;
+    justify-content: space-between;
+    float: right;
+    padding: 1rem 0rem;
+}
+
+.total-price>p {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.total-price>p:last-child {
+    color: var(--primary);
+    padding-left: 10px;
+}
+
+/* form */
+
+.form {
+    margin-top: 5rem;
+    width: 710px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.form-group>label {
+    display: inline-block;
+    font-size: 18px;
+    width: 200px;
+    font-weight: bold;
+}
+
+.form-group>p{
+    flex: 1;
+    width: 100%;
+    font-size: 20px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.form-actions {
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 10px;
+}
+
+.form-actions > button {
+    width: 240px;
+    padding: 14px 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-accept {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.form-actions > button.confirm {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (min-width: 360px) {
+    .form-group {
+        flex-direction: row;
+    }
+}
+
+
+@media (min-width: 737px) {
+    .total-price {
+        float: left;
+    }
+}

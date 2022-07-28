@@ -1,0 +1,251 @@
+.navbar {
+    height: 45px;
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.navbar > button {
+    background-color: inherit;
+    color: white;
+    padding: 0;
+    font-size: 1.75rem;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.navbar > button:hover {
+    color: #f3f3f3e1;
+}
+
+/* AdminController */
+.controller-container {
+    position: fixed;
+    display: inline-block;
+    visibility: hidden;
+    min-height: 100vh;
+    top: 45px;
+    background-color: #333;
+    color: #ccc;
+    left: -100%;
+    opacity: 0.5;
+    z-index: 1;
+    transition: all .4s ease-in-out;
+}
+
+.controller-container.show {
+    visibility: visible;
+    left: 0;
+    opacity: 1;
+}
+
+.controller-content {
+    padding: 15px 0 15px 15px;
+}
+
+.controller-content > div {
+    margin-bottom: 0.75rem;
+}
+
+.controller-content > div > a, .controller-content > div > p {
+    color: rgba(204, 204, 204, 0.585);
+    display: block;
+    transition: color .2s;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.controller-content > div:hover > a,
+.controller-content > div.active > a, 
+.controller-content > div:hover > p,
+.controller-content > div.active > p {
+    color: #f2f2f2;
+}
+
+.categories {
+    list-style-type: none;
+    padding: 0;
+    padding-left: 1rem;
+}
+
+.categories > li > a {
+    display: block;
+    margin-top: 0.5rem;
+    color: rgba(204, 204, 204, 0.585);
+    transition: color .2s;
+    padding-right: 1rem;
+}
+
+.categories > li > a:hover,
+.categories > li.li-active > a {
+    color: #f2f2f2;
+}
+
+/* AdminProducts */
+.products-container {
+    padding: 15px;
+}
+
+.add-btn {
+    background-color: rgba(36, 107, 230, 0.8);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: 1.5rem;
+}
+
+.add-btn:hover, .add-btn:active, .add-btn:focus {
+    background-color: rgba(36, 107, 230, 1);
+}
+
+.setting-btn {
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: #555;
+    font-weight: bold;
+    background-color: rgba(235, 177, 69, 0.7);
+    cursor: pointer;
+}
+
+.setting-btn:hover, .setting-btn:active, .setting-btn:focus {
+    background-color: rgb(235, 177, 69, 0.9);
+}
+
+.delete-btn {
+    margin-left: 0.5rem;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: #f2f2f2;
+    font-weight: bold;
+    background-color: rgba(195, 39, 39, 0.7);
+    cursor: pointer;
+}
+
+.delete-btn:hover, .delete-btn:active, .delete-btn:focus {
+    background-color: rgba(195, 39, 39, 0.9);
+}
+
+table {
+    width: 100%;
+    text-align: center;
+}
+
+thead {
+    display: block;
+    background-color: #ddd;
+    padding: 0.5rem 15px;
+    margin: 0 -15px;
+}
+
+tr.product {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+}
+
+tr.product > td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+tbody > tr.product {
+    border-bottom: 1.5px solid #ccc;
+    padding: 0.5rem 15px;
+    margin: 0 -15px;
+}
+
+.product-img {
+    width: 50px;
+}
+
+/* ModalProduct */
+.modal-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0, 0.1);
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal-content {
+    position: relative;
+    width: min(98%, 400px);
+    background-color: white;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 45px 25px 25px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    color: #555;
+    background-color: transparent;
+    font-size: 2rem;
+    transition: color 0.2s;
+}
+
+.modal-close:hover, .modal-close:focus, .modal-close:active {
+    color: #333;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+}
+
+.modal-form > div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-bottom: 1rem;
+}
+
+.modal-form > div > input {
+    padding: 3px 5px;
+    font-size: 15px;
+}
+
+.submit {
+    margin-top: 1rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.submit.update {
+    background-color: rgba(235, 177, 69, 0.7);
+}
+
+.submit.update:hover {
+    background-color: rgba(235, 177, 69, 0.9);
+}
+
+.submit.add {
+    background-color: rgba(36, 107, 230, 0.8);
+    color: white;
+}
+
+.submit.add:hover {
+    background-color: rgba(36, 107, 230, 1);
+}
+
+/* AdminOrders */

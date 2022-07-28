@@ -10,6 +10,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null)
+    const [currentAdmin, setCurrentAdmin] = useState({ admin: 'admin@gmail.com' })
 
     function signup (email, password) {
         return createUserWithEmailAndPassword(auth, email, password)
@@ -33,6 +34,8 @@ export function AuthProvider({ children }) {
 
     const value = {
         currentUser,
+        currentAdmin,
+        setCurrentAdmin,
         signup,
         login,
         signout

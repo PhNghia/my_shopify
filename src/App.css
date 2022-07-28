@@ -1,38 +1,31 @@
-.App {
-  text-align: center;
+:root {
+  --primary: #ee4d2d;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*, *::before, *::after {
+  margin: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: "Helvetica Neue","Helvetica","Arial","文泉驛正黑","WenQuanYi Zen Hei","Hiragino Sans GB","儷黑 Pro","LiHei Pro","Heiti TC","微軟正黑體","Microsoft JhengHei UI","Microsoft JhengHei","sans-serif";
+  font-size: 14px;
+  background-color: #F5F5F5;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+button {
+  border: none;
+  outline: none;
+  user-select: none;
 }
 
-.App-link {
-  color: #61dafb;
+a {
+  text-decoration: none;
+  user-select: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+hr {
+  height: 30px;
+  width: 100%;
+  border: none;
 }

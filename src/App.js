@@ -1,21 +1,45 @@
 import './App.css';
-import { AuthProvider } from './contexts/AuthContext';
+import { useDatabase } from './contexts/DatabaseContext';
 import Signup from './components/Signup'
 import Login from './components/Login'
-import Dashboard from './components/Dashboard'
+import Home from './components/Home'
+import CategoriesSlideApp from './components/CategoriesAppC/CategoriesSlideApp'
+import Products from './components/Products/Products.js'
+import ProductArticle from './components/Products/ProductArticle'
+import UserCart from './components/UserCart/UserCart'
+import OrderProductsConfirm from './components/OrderProductsConfirm/OrderProductsConfirm'
+import UserProfile from './components/UserProfile/UserProfile'
+import AdminPage from './components/Admin/AdminPage';
+import ShowAllOfOrder from './components/Admin/ShowAllOfOrder/ShowAllOfOrder';
+import AdminProducts from './components/Admin/AdminProducts'
+import { Orders } from './components/Admin/index.js'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
+  const { categories, orders } = useDatabase()
   return (
-    <AuthProvider>
-      <HashRouter>
-        <Routes>
-          <Route path="/" exact element={<Dashboard />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </HashRouter>
-    </AuthProvider>
+    <HashRouter>
+      <Routes>
+        <Route path="/" exact element={<Home />}>
+          <Route index element={<CategoriesSlideApp />} />
+          {categories.map(category => (<Route key={category.id} path={`category/${category.id}`} element={<Products categoryId={category.id} />} />))}
+          {categories.map(category => {
+            const productsKey = category.products ? [...Object.keys(category.products)] : []
+            return productsKey.map(key => (<Route key={key} path={`category/${category.id}/${key}`} element={<ProductArticle categoryId={category.id} productId={key} />} />))
+          })}
+        </Route>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/user_cart" element={<UserCart />} />
+        <Route path="/confirm_order" element={<OrderProductsConfirm />} />
+        <Route path="/user_profile" element={<UserProfile />} />
+        <Route path="/admin" element={<AdminPage />}>
+          <Route index element={<Orders />} />
+          {categories.map(category => (<Route key={category.id} path={`category/${category.id}`} element={<AdminProducts id={category.id} />} />))}
+          {orders.map(order => (<Route key={order.orderId} path={`order/${order.orderId}`} element={<ShowAllOfOrder order={order}/>}/>))}
+        </Route> 
+      </Routes>
+    </HashRouter>
   );
 }
 

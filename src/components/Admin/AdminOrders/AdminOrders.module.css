@@ -1,0 +1,52 @@
+.container {
+    padding: 1rem 15px;
+}
+
+tr.order {
+    --col: 6;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr 0.8fr 0.5fr 0.5fr 0.8fr;
+    align-items: center;
+}
+
+tr.order > td {
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+tbody.order {
+    display: block;
+    margin: 0 -15px;
+}
+
+tbody > tr.order {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 15px;
+}
+
+.order-img {
+    width: 80px;
+}
+
+.actions > button {
+    margin-right: 10px;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.actions > button:first-child {
+    background-color: var(--primary);
+    color: white;
+}
+
+.actions > button:last-child {
+    background-color: #f2f2f2;
+    color: #333;
+}

@@ -1,0 +1,219 @@
+.navbar {
+    position: relative;
+    height: 50px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.75rem;
+}
+
+.navbar > a {
+    position: absolute;
+    left: 1rem;
+    color: var(--primary);
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-right: 2rem;
+}
+
+.navbar > h3 {
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    font-family: 'Poppins', sans-serif;
+    min-height: calc(100vh - 50px);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+.wrap {
+    width: min(100%, 400px);
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+    -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+    -o-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+}
+
+.form {
+    display: block;
+    padding: 15px 25px 18px;
+    text-align: center;
+}
+
+.form>h1 {
+    color: #333;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    margin: 10px auto 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+}
+
+.error {
+    display: block;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.2;
+    padding: 14px 5px;
+    margin: 0 0 40px;
+    background-color: rgb(254, 172, 172);
+    border-radius: 8px;
+}
+
+.form-group {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin-bottom: 37px;
+}
+
+.form-group.focus>label {
+    top: -20px;
+}
+
+.form-group>label {
+    font-family: 'Poppins', sans-serif;
+    position: absolute;
+    width: 100%;
+    font-size: 16px;
+    color: #999;
+    line-height: 1.2;
+    text-align: left;
+    top: 10px;
+    left: 0;
+    padding-left: 5px;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s;
+    pointer-events: none;
+}
+
+.form-group>span {
+    position: absolute;
+    width: 0;
+    bottom: -2px;
+    left: 0;
+    height: 2px;
+    background-image: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+    transition: width .4s;
+}
+
+.form-group.focus>span {
+    width: 100%;
+}
+
+.form-group>input {
+    border: none;
+    outline: none;
+    display: block;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    line-height: 1.2;
+    height: 45px;
+    padding: 0 5px;
+}
+
+.form-group>input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: transparent !important;
+    color: fieldtext !important;
+}
+
+.button {
+    position: relative;
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    transform: translateY(13px);
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.button::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -100%;
+    width: 300%;
+    background-image: -webkit-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
+    height: 50px;
+    transition: left .4s;
+    z-index: -1;
+}
+
+.button:hover:after {
+    left: 0;
+}
+
+.form-message {
+    padding-top: 90px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.form-message>a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.5;
+}
+
+.form-message.signup {
+    padding-top: 37px;
+}
+
+@media (min-width: 40em) {
+    .form {
+        padding: 20px 55px 33px;
+    }
+
+    .form-message {
+        padding-top: 115px;
+        font-size: 16px;
+    }
+
+    .form-message.signup {
+        padding-top: 50px;
+    }
+}
