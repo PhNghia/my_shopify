@@ -1,7 +1,9 @@
 import './App.css';
+import { useAuth } from './contexts/AuthContext'
 import { useDatabase } from './contexts/DatabaseContext';
 import Signup from './components/Signup'
 import Login from './components/Login'
+import Loading from './components/Loading'
 import Home from './components/Home'
 import CategoriesSlideApp from './components/CategoriesAppC/CategoriesSlideApp'
 import Products from './components/Products/Products.js'
@@ -14,9 +16,41 @@ import ShowAllOfOrder from './components/Admin/ShowAllOfOrder/ShowAllOfOrder';
 import AdminProducts from './components/Admin/AdminProducts'
 import { Orders } from './components/Admin/index.js'
 import { HashRouter, Routes, Route } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
 function App() {
-  const { categories, orders } = useDatabase()
+  const { categories, orders, testStatusAdmin, getOrdersFromAdmin } = useDatabase()
+  const { setCurrentAdmin } = useAuth()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      setLoading(true)
+      return
+    }
+
+    setLoading(false)
+  }, [categories])
+
+  useEffect(() => {
+    function setupForAdmin () {
+      if (window.location.hash.includes('admin')) {
+        testStatusAdmin(setCurrentAdmin)
+        getOrdersFromAdmin()
+      }
+    }
+
+    window.addEventListener('hashchange', setupForAdmin)
+    window.addEventListener('load', setupForAdmin)
+    
+    return () => {
+      window.removeEventListener('hashchange', setupForAdmin)
+      window.removeEventListener('load', setupForAdmin)
+    }
+  }, [])
+
+  if (loading) return <Loading />
+
   return (
     <HashRouter>
       <Routes>

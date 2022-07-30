@@ -5,12 +5,8 @@ import style from './AdminOrders.module.css'
 
 export default function AdminOrders() {
 
-  const { orders, getOrdersFromAdmin, removeOrderFromAdmin } = useDatabase()
+  const { orders, removeOrderFromAdmin } = useDatabase()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    getOrdersFromAdmin();
-  }, [])
 
   function handleShowOrder (order) {
     navigate(`order/${order.orderId}`)

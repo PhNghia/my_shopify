@@ -8,14 +8,15 @@ import style from '../stylesModule/FormAuth.module.css'
 
 export default function Signup() {
 
+    const nameRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { signup } = useAuth()
+    const { signup, signout, updateUser } = useAuth()
     const [error, setError] = useState('')
     const [state, dispatch] = useReducerContext()
     const navigate = useNavigate()
-    
+
     async function handleSubmit(e) {
         e.preventDefault()
 
@@ -30,46 +31,76 @@ export default function Signup() {
             const user = userCredential.user
             const userRef = ref(database, "users/" + user.uid)
             set(userRef, {
-                email: user.email
+                email: user.email,
             })
+            updateUser(user, {
+                displayName: nameRef.current.value ? nameRef.current.value : null
+            })
+            signout()
             navigate('/login', { replace: true })
         } catch (error) {
             setError('Sign up failed! - ' + error.code)
         }
     }
 
+    function handleFocus(e) {
+        e.target.parentElement.classList.add(style['focus'])
+    }
+
+    function handleBlur(e) {
+        if (e.target.value) return
+        e.target.parentElement.classList.remove(style['focus'])
+    }
+
+    function setUpElementsFocus(...elements) {
+        elements.forEach(element => element.addEventListener('focus', handleFocus))
+    }
+
+    function setUpElementsBlur(...elements) {
+        elements.forEach(element => element.addEventListener('blur', handleBlur))
+    }
+
+    function giveUpElementsFocus(...elements) {
+        elements.forEach(element => {
+            if (!element) return
+            element.removeEventListener('focus', handleFocus)
+        })
+    }
+
+    function giveUpElementsBlur(...elements) {
+        elements.forEach(element => {
+            if (!element) return
+            element.removeEventListener('blur', handleBlur)
+        })
+    }
+
     useEffect(() => {
-        function handleFocus(e) {
-            e.target.parentElement.classList.add(style['focus'])
-        }
-
-        function handleBlur(e) {
-            if (e.target.value) return
-            e.target.parentElement.classList.remove(style['focus'])
-        }
-
-        emailRef.current.addEventListener('focus', handleFocus)
-        emailRef.current.addEventListener('blur', handleBlur)
-
-        passwordRef.current.addEventListener('focus', handleFocus)
-        passwordRef.current.addEventListener('blur', handleBlur)
-
-        passwordConfirmRef.current.addEventListener('focus', handleFocus)
-        passwordConfirmRef.current.addEventListener('blur', handleBlur)
+        setUpElementsFocus(
+            nameRef.current,
+            emailRef.current,
+            passwordRef.current,
+            passwordConfirmRef.current,
+        )
+        setUpElementsBlur(
+            nameRef.current,
+            emailRef.current,
+            passwordRef.current,
+            passwordConfirmRef.current,
+        )
 
         return () => {
-            if (emailRef.current) {
-                emailRef.current.removeEventListener('focus', handleFocus)
-                emailRef.current.removeEventListener('blur', handleBlur)
-            }
-            if (passwordRef.current) {
-                passwordRef.current.removeEventListener('focus', handleFocus)
-                passwordRef.current.removeEventListener('blur', handleBlur)
-            }
-            if (passwordConfirmRef.current) {
-                passwordConfirmRef.current.removeEventListener('focus', handleFocus)
-                passwordConfirmRef.current.removeEventListener('blur', handleBlur)
-            }
+            giveUpElementsFocus(
+                nameRef.current,
+                emailRef.current,
+                passwordRef.current,
+                passwordConfirmRef.current,
+            )
+            giveUpElementsBlur(
+                nameRef.current,
+                emailRef.current,
+                passwordRef.current,
+                passwordConfirmRef.current,
+            )
         }
     }, [])
 
@@ -87,6 +118,11 @@ export default function Signup() {
                             <i className="fa-solid fa-m"></i>
                         </p>
                         {error && <p className={style['error']}>{error}</p>}
+                        <div className={style['form-group']}>
+                            <label>Full Name</label>
+                            <input type="text" ref={nameRef} />
+                            <span></span>
+                        </div>
                         <div className={style['form-group']}>
                             <label>Email</label>
                             <input type="email" required ref={emailRef} />

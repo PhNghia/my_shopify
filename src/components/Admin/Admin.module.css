@@ -7,17 +7,81 @@
     padding: 0 15px;
 }
 
-.navbar > button {
+.navbar > button,
+.admin > span {
     background-color: inherit;
-    color: white;
+    color: #f3f3f3e1;
     padding: 0;
     font-size: 1.75rem;
     cursor: pointer;
     transition: color .2s;
 }
 
-.navbar > button:hover {
-    color: #f3f3f3e1;
+.navbar > button:hover,
+.admin:hover > span,
+.admin:focus > span,
+.admin:active > span {
+    color: #fff;
+}
+
+.admin {
+    position: relative;
+    padding: 0 4px;
+    cursor: pointer;
+}
+
+.admin:hover > .admin-box,
+.admin:active > .admin-box,
+.admin:focus > .admin-box {
+    transform: scale(1);
+}
+
+.admin-box {
+    position: absolute;
+    background-color: #fff;
+    width: 100px;
+    text-align: center;
+    top: calc(100% + 4px);
+    right: 0;
+    padding: 4px 6px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    transform: scale(0);
+    transform-origin: calc(100% - 7.5px) top;
+    transition: all 0.25s;
+    z-index: 2;
+}
+
+.admin-box::before {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 100%;
+    right: 7.5px;
+    height: 0;
+    width: 0;
+    border: 4px solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+.admin-box::after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 100%;
+    right: 0px;
+    height: 20px;
+    width: 50px;
+    background-color: transparent;
+}
+
+.admin-box > p {
+    color: #333;
+    transition: color 0.2s;
+}
+
+.admin-box > p:hover {
+    color: var(--primary);
+    cursor: pointer;
 }
 
 /* AdminController */
@@ -33,6 +97,7 @@
     opacity: 0.5;
     z-index: 1;
     transition: all .4s ease-in-out;
+    user-select: none;
 }
 
 .controller-container.show {
@@ -49,17 +114,24 @@
     margin-bottom: 0.75rem;
 }
 
-.controller-content > div > a, .controller-content > div > p {
+.controller-content > div > a, .controller-content > div > p, .title-according {
     color: rgba(204, 204, 204, 0.585);
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     transition: color .2s;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 17px;
 }
 
-.controller-content > div:hover > a,
+.title-according > span {
+    transition: all 250ms;
+    padding: 0 1rem;
+}
+
+.controller-content > div > a:hover,
 .controller-content > div.active > a, 
-.controller-content > div:hover > p,
+.controller-content > div > p:hover,
 .controller-content > div.active > p {
     color: #f2f2f2;
 }
@@ -70,17 +142,64 @@
     padding-left: 1rem;
 }
 
+.categories > li {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .categories > li > a {
+    flex: 1;
     display: block;
-    margin-top: 0.5rem;
     color: rgba(204, 204, 204, 0.585);
     transition: color .2s;
+    font-size: 15px;
     padding-right: 1rem;
 }
 
+.categories > li:last-child {
+    margin-right: 1rem;
+}
+
+.categories > li:last-child > i {
+    display: inline-block;
+    color: rgba(204, 204, 204, 0.585);
+    transition: color .2s;
+    font-size: 20px;
+}
+
 .categories > li > a:hover,
+.categories > li > i:hover,
 .categories > li.li-active > a {
     color: #f2f2f2;
+    cursor: pointer;
+}
+
+.update-pen {
+    font-size: 10px;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: color .2s;
+    color: rgba(204, 204, 204, 0.585);
+}
+
+.update-pen:hover {
+    color: #f2f2f2;
+}
+
+.check-remove {
+    --square: 16px;
+    display: inline-block;
+    width: var(--square);
+    height: var(--square);   
+    margin-right: 10px; 
+}
+
+.according {
+    height: 0;
+    overflow: hidden;
+    transition: all 250ms;
 }
 
 /* AdminProducts */

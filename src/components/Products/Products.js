@@ -34,7 +34,7 @@ export default function Products({ categoryId, resultProducts }) {
                     case category.name:
                         return [...defaultProducts]
                     default:
-                        const arrayValueOfInput = input.split(' ')
+                        const arrayValueOfInput = input.trim().split(' ')
                         return defaultProducts.filter(product => {
                             const isValid = arrayValueOfInput.some(value => product.title.toLowerCase().includes(value.toLowerCase()))
                             return isValid

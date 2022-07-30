@@ -26,6 +26,10 @@
 }
 
 .container {
+    margin: 0 auto;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
     padding: 1rem 12px;
 }
 
@@ -33,6 +37,7 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 3rem;
 }
 
 .img-name {
@@ -54,4 +59,99 @@
     font-size: 16px;
     color: var(--primary); 
     font-weight: 500; 
+}
+
+.user {
+    flex: 1;
+}
+
+.user > div {
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.btn-edit {
+    background-color: transparent;
+    color: #333;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.btn-edit:hover,
+.btn-edit:active {
+    color: rgb(95, 13, 177);
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.name > p >span {
+    margin-left: 1rem;
+    font-weight: bold;
+}
+
+.according {
+    height: 0;
+    overflow: hidden;
+    transition: all .3s;
+}
+
+.according.show {
+    border-bottom: 1px solid #ccc;
+}
+
+.form {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form > div{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form > div ~ div {
+    margin-top: 10px;
+}
+
+.form > div > label {
+    font-weight: bold;
+    width: 160px;
+    margin-right: 2rem;
+}
+
+.form > div > input {
+    padding: 4px 5px;
+    border-radius: 3px;
+    border: 1px solid #333;
+    outline: none;
+}
+
+.btn-submit {
+    margin-top: 20px;
+    padding: 6px 20px;
+    background-color: #000;
+    color: white;
+    font-size: 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+@media (min-width: 540px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .contain-img {
+        margin-bottom: 0;
+        margin-right: 3rem;
+    }
 }

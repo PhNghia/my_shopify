@@ -7,26 +7,26 @@ import style from './CategoriesApp.module.css'
 export default function CategoriesSlideApp() {
 
   const { categories } = useDatabase()
-  const carouselRef = useRef()
   const [endLeft, setEndLeft] = useState(false)
   const [endRight, setEndRight] = useState(false)
 
   useEffect(() => {
-    let articles = carouselRef.current.querySelectorAll('a')
+    const carouselElement = document.querySelector(`.${style['carousel']}`)
+    let articles = carouselElement.querySelectorAll('a')
     articles = [...articles]
     if (articles.length <= 0) return
 
     const optionsLeft = {
-      root: carouselRef.current,
+      root: carouselElement,
       threshold: 0.7
     }
 
     const optionsRight = {
-      root: carouselRef.current,
+      root: carouselElement,
       threshold: 0.7
     }
 
-    function callbackOfLeft (entries, observer) {
+    function callbackOfLeft(entries, observer) {
       if (entries[0].isIntersecting) {
         setEndLeft(true)
       } else {
@@ -34,7 +34,7 @@ export default function CategoriesSlideApp() {
       }
     }
 
-    function callbackOfRight (entries, observer) {
+    function callbackOfRight(entries, observer) {
       if (entries[0].isIntersecting) {
         setEndRight(true)
       } else {
@@ -42,8 +42,8 @@ export default function CategoriesSlideApp() {
       }
     }
 
-    const observerLeft = new IntersectionObserver(callbackOfLeft , optionsLeft)
-    const observerRight = new IntersectionObserver(callbackOfRight , optionsRight)
+    const observerLeft = new IntersectionObserver(callbackOfLeft, optionsLeft)
+    const observerRight = new IntersectionObserver(callbackOfRight, optionsRight)
     const INDEX_OF_LAST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT = 12
     const INDEX_OF_FIRST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT = 0
     observerLeft.observe(articles[INDEX_OF_FIRST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT])
@@ -56,10 +56,11 @@ export default function CategoriesSlideApp() {
   }, [categories])
 
   function handleTranslate(trend) {
-    const article = carouselRef.current.querySelectorAll('a')[0]
+    const carouselElement = document.querySelector(`.${style['carousel']}`)
+    const article = carouselElement.querySelectorAll('a')[0]
     const boundingRect = article.getBoundingClientRect()
     const rangeTranslate = trend === 'left' ? boundingRect.width * (-3) : boundingRect.width * (3)
-    carouselRef.current.scrollBy({ left: rangeTranslate, behavior: 'smooth' })
+    carouselElement.scrollBy({ left: rangeTranslate, behavior: 'smooth' })
   }
 
   return (
@@ -74,7 +75,7 @@ export default function CategoriesSlideApp() {
             <span>Danh mục</span>
           </div>
           <div className={style['category-container']}>
-            <div className={style["carousel"]} ref={carouselRef}>
+            <div className={style["carousel"]}>
               {categories.map(category => (
                 <Link to={`/category/${category.id}`} key={category.id} className={style['article']}>
                   <div className={style['image']}>
@@ -88,8 +89,8 @@ export default function CategoriesSlideApp() {
             </div>
 
             <div className={style['btn-transform']}>
-              <button className={`${style['left']} ${endLeft ? style['end'] : ''}`} onClick={() => handleTranslate('left')}><i class="fa-solid fa-chevron-left"></i></button>
-              <button className={`${style['right']} ${endRight ? style['end'] : ''}`} onClick={() => handleTranslate('right')}><i class="fa-solid fa-chevron-right"></i></button>
+              <button className={`${style['left']} ${endLeft ? style['end'] : ''}`} onClick={() => handleTranslate('left')}><i className="fa-solid fa-chevron-left"></i></button>
+              <button className={`${style['right']} ${endRight ? style['end'] : ''}`} onClick={() => handleTranslate('right')}><i className="fa-solid fa-chevron-right"></i></button>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 .container {
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 .slide-container {
@@ -27,7 +27,7 @@
 }
 
 .btn-transform>button {
-    --square: 50px;
+    --square: 30px;
     box-shadow: 0 1px 12px 0 rgb(0 0 0 / 12%);
     cursor: pointer;
     position: absolute;
@@ -35,7 +35,7 @@
     width: var(--square);
     height: var(--square);
     line-height: var(--square);
-    font-size: 20px;
+    font-size: calc(var(--square) / 2);
     border-radius: 50%;
     background-color: #fff;
     opacity: 0.5;
@@ -44,6 +44,7 @@
 
 .btn-transform>button:hover {
     opacity: 1;
+    --square: 40px;
 }
 
 .btn-transform>button.end {

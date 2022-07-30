@@ -11,7 +11,7 @@ export default function ShowAllOfOrder({ order }) {
     const products = useMemo(() => {
         return [...Object.values(order.products)]
     }, [])
-    const { updateOrderFromAdmin } = useDatabase()
+    const { orders, updateOrderFromAdmin } = useDatabase()
 
     function handleAccept() {
         setShowAccept(true)

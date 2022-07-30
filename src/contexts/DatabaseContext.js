@@ -12,36 +12,61 @@ export function useDatabase() {
 
 export function DatabaseProvider({ children }) {
 
-    const [products, setProducts] = useState([])
     const [orders, setOrders] = useState([])
     const [categories, setCategories] = useState([])
     const [carts, setCarts] = useState([])
-    const { currentUser } = useAuth()
+    const { currentUser, currentAdmin } = useAuth()
 
     useEffect(() => {
         if (currentUser) {
             getCurrentUserCarts()
             return
         }
-
+        
         setCarts([])
-
+        
     }, [currentUser])
-
+    
     useEffect(() => {
-        getProducts()
+        if (currentAdmin) {
+            getOrdersFromAdmin()
+        }
+    }, [currentAdmin])
+    
+    useEffect(() => {
         getCategories()
     }, [])
+
+    function testStatusAdmin (setCurrentAdmin) {
+        const adminRef = ref(database, `admin`)
+        onValue(adminRef, (snapshot) => {
+            const data = snapshot.val()
+            if (data) {
+                const status = data.status
+                if (status) {
+                    setCurrentAdmin({ ...data })
+                    return
+                }
+                setCurrentAdmin(null)
+            }
+        })
+    }
 
     function loginWithAdmin (email, password) {
         return new Promise((resolve, reject) => {
             const adminRef = ref(database, "admin")
             onValue(adminRef, (snapshot) => {
                 const data = snapshot.val()
-                if (!data || data !== email) reject('Login failed!')
+                if (!data || data.email !== email) reject('Login failed!')
                 if (password !== 'vannghia0914') reject('Login failed!')
-                resolve(email)
+                resolve(data)
             })
+        })
+    }
+
+    function setStatusAdmin (updateCurrentAdmin) {
+        update(ref(database), {
+            'admin': { ...updateCurrentAdmin }
         })
     }
 
@@ -73,16 +98,6 @@ export function DatabaseProvider({ children }) {
         remove(orderRef)
     }
 
-    function getProducts() {
-        const productsRef = ref(database, "products")
-        onValue(productsRef, (snapshot) => {
-            const data = snapshot.val()
-            if (data) {
-                setProducts([...Object.values(data)])
-            }
-        })
-    }
-
     function getCategories () {
         const categoriesRef = ref(database, "categories")
         onValue(categoriesRef, (snapshot) => {
@@ -98,6 +113,25 @@ export function DatabaseProvider({ children }) {
                 setCategories(result)
             }
         })
+    }
+
+    function addCategoryFromAdmin (category) {
+        const idCategory = v4() + new Date().getTime()
+        const path = `categories/${idCategory}`
+        update(ref(database), {
+            [path]: { ...category }
+        })
+    }
+
+    function updateCategoryFromAdmin (categoryId, category) {
+        const path = `categories/${categoryId}`
+        update(ref(database), {
+            [path]: { ...category }
+        })
+    }
+
+    function removeCategoryFromAdmin (categoryId) {
+        remove(ref(database, `categories/${categoryId}`))
     }
 
     function addProductFromAdmin(categoryId, product) {
@@ -177,19 +211,22 @@ export function DatabaseProvider({ children }) {
 
     const value = {
         orders,
-        products,
         carts,
         categories,
+        testStatusAdmin,
+        loginWithAdmin,
+        setStatusAdmin,
         getOrdersFromAdmin,
         updateOrderFromAdmin,
         removeOrderFromAdmin,
-        getProducts,
+        addCategoryFromAdmin,
+        updateCategoryFromAdmin,
+        removeCategoryFromAdmin,
         addProductFromAdmin,
         getCurrentUserCarts,
         addCartFromCurrentUser,
         increaseQuantityCartItem,
         decreaseQuantityCartItem,
-        loginWithAdmin,
         updateProductFromAdmin,
         deleteProductFromAdmin,
         addOrderFromUser,
