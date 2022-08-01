@@ -36,6 +36,29 @@
     background-color: inherit;
 }
 
+.none-contain {
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.none-contain > img {
+    width: 120px;
+}
+
+.message-empty {
+    margin: .9375rem 0 .625rem;
+    color: rgba(0,0,0,.87);
+    font-size: 1.125rem;
+}
+
+.suggest-empty {
+    font-size: 1.125rem;
+    color: rgba(0,0,0,.54);
+}
+
 .contain {
     --number: 2;
     padding: 2rem 0.75rem;

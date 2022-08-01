@@ -1,6 +1,7 @@
 import './App.css';
 import { useAuth } from './contexts/AuthContext'
 import { useDatabase } from './contexts/DatabaseContext';
+import { useReducerContext } from './contexts/ReducerContext'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Loading from './components/Loading'
@@ -22,6 +23,7 @@ function App() {
   const { categories, orders, testStatusAdmin, getOrdersFromAdmin } = useDatabase()
   const { setCurrentAdmin } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [state, dispatch] = useReducerContext()
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -61,6 +63,8 @@ function App() {
             const productsKey = category.products ? [...Object.keys(category.products)] : []
             return productsKey.map(key => (<Route key={key} path={`category/${category.id}/${key}`} element={<ProductArticle categoryId={category.id} productId={key} />} />))
           })}
+          <Route path={`tags`} element={<Products inputSearchValue={state.inputOfCustomSearch} />} />
+          {state.productsOfCustomSearch.map(product => <Route key={product.id} path={`tags/${product.id}`} element={<ProductArticle categoryId={product.categoryId} productId={product.id} />}/>)}
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

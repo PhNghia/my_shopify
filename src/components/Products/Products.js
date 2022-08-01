@@ -1,19 +1,39 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useDatabase } from '../../contexts/DatabaseContext'
+import { useReducerContext, setInputOfCustomSearch, setProductsOfCustomSearch } from '../../contexts/ReducerContext'
 import style from './Products.module.css'
 
-export default function Products({ categoryId, resultProducts }) {
-
+export default function Products({ categoryId }) {
     const inputSearchRef = useRef()
+    const [state, dispatch] = useReducerContext()
     const { categories } = useDatabase()
     const category = categories.find(category => category.id === categoryId)
-    const defaultProducts = category.products ? [...Object.values(category.products)] : []
-    const [input, setInput] = useState(category.name)
-    const [products, setProducts] = useState([...defaultProducts])
+    const defaultProducts = useMemo(() => {
+        if (category) {
+            const products = category.products ? [...Object.values(category.products)] : []
+            return products
+        }
 
+        return categories.map(category => {
+            return category.products ? [...Object.values(category.products)] : []
+        }).flat(Infinity)
+    }, [])
+    const [input, setInput] = useState(() => {
+        if (category) return category.name
+
+        return state.inputOfCustomSearch
+    })
+    const [products, setProducts] = useState(() => {
+        if (category) return [...defaultProducts]
+        return defaultProducts.filter(product => {
+            return product.title.toLowerCase().includes(state.inputOfCustomSearch.toLowerCase())
+        })
+    })
 
     useEffect(() => {
+        if (!category) inputSearchRef.current.style.color = '#555'
+
         inputSearchRef.current.onfocus = () => {
             setInput('')
             inputSearchRef.current.style.color = '#555'
@@ -21,25 +41,38 @@ export default function Products({ categoryId, resultProducts }) {
 
         inputSearchRef.current.onblur = () => {
             if (inputSearchRef.current.value) return
-            setInput(category.name)
-            inputSearchRef.current.style.color = 'var(--primary)'
+            setInput(() => {
+                if (category) return category.name
+                return state.inputOfCustomSearch
+            })
+            if (category) inputSearchRef.current.style.color = 'var(--primary)'
         }
     }, [])
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            setProducts(() => {
-                switch (input) {
-                    case '':
-                    case category.name:
-                        return [...defaultProducts]
-                    default:
-                        const arrayValueOfInput = input.trim().split(' ')
-                        return defaultProducts.filter(product => {
-                            const isValid = arrayValueOfInput.some(value => product.title.toLowerCase().includes(value.toLowerCase()))
-                            return isValid
-                        })
-                }
+            if (category) {
+                setProducts(() => {
+                    switch (input) {
+                        case '':
+                        case category.name:
+                            return [...defaultProducts]
+                        default:
+                            const arrayValueOfInput = input.trim().split(' ')
+                            return defaultProducts.filter(product => {
+                                const isValid = arrayValueOfInput.some(value => product.title.toLowerCase().includes(value.toLowerCase()))
+                                return isValid
+                            })
+                    }
+                })
+                return
+            }
+
+            if (input.trim()) setProducts(() => {
+                dispatch(setInputOfCustomSearch(input))
+                return defaultProducts.filter(product => {
+                    return product.title.toLowerCase().includes(input.toLowerCase())
+                })
             })
         }, 600)
 
@@ -47,6 +80,10 @@ export default function Products({ categoryId, resultProducts }) {
             clearTimeout(delay)
         }
     }, [input])
+
+    useEffect(() => {
+        dispatch(setProductsOfCustomSearch(products))
+    }, [products])
 
     return (
         <>
@@ -59,32 +96,43 @@ export default function Products({ categoryId, resultProducts }) {
                         ref={inputSearchRef}
                         value={input}
                         onChange={e => setInput(e.target.value)}
-                        placeholder={`Tìm trong ${category.name}`}
+                        placeholder={category && `Tìm trong ${category.name}`}
                     />
                 </div>
             </div>
-            <div className={style['contain']}>
-                {products.map(product => (
-                    <Link to={product.id} key={product.id} className={style['article']}>
-                        <div className={style['product-img']}>
-                            <img src={product.imgUrl} alt={'ảnh ' + product.title} />
-                        </div>
-                        <div className={style['description']}>
-                            <p className={style['product-title']}>{product.title}</p>
-                            <p className={style['product-price']}>
-                                <span className={style['old-price']}>
-                                    <span>đ</span>
-                                    {Number(product.oldPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                </span>
-                                <span className={style['new-price']}>
-                                    <span>đ</span>
-                                    {Number(product.newPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                </span>
-                            </p>
-                        </div>
-                    </Link>
-                ))}
-            </div>
+
+            {products.length === 0 && (
+                <div className={style['none-contain']}>
+                    <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg//assets/a60759ad1dabe909c46a817ecbf71878.png" alt="trống" />
+                    <div className={style['message-empty']}>Không tìm thấy kết quả nào</div>
+                    <div className={style['suggest-empty']}>Hãy thử sử dụng các từ khóa chung chung hơn</div>
+                </div>
+            )}
+
+            {products.length > 0 && (
+                <div className={style['contain']}>
+                    {products.map(product => (
+                        <Link to={`${category ? `/category/${product.categoryId}/` : '/tags/'}${product.id}`} key={product.id} className={style['article']}>
+                            <div className={style['product-img']}>
+                                <img src={product.imgUrl} alt={'ảnh ' + product.title} />
+                            </div>
+                            <div className={style['description']}>
+                                <p className={style['product-title']}>{product.title}</p>
+                                <p className={style['product-price']}>
+                                    <span className={style['old-price']}>
+                                        <span>đ</span>
+                                        {Number(product.oldPrice).toLocaleString('en-US').replaceAll(',', '.')}
+                                    </span>
+                                    <span className={style['new-price']}>
+                                        <span>đ</span>
+                                        {Number(product.newPrice).toLocaleString('en-US').replaceAll(',', '.')}
+                                    </span>
+                                </p>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            )}
         </>
     )
 }

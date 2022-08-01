@@ -27,7 +27,6 @@ export default function ProductArticle({ categoryId, productId }) {
     function handleAddProduct() {
         if (!currentUser) {
             dispatch(setPathOfLocation(location.pathname))
-            console.log(location.pathname)
             navigate('/login')
             return
         }
@@ -114,7 +113,7 @@ export default function ProductArticle({ categoryId, productId }) {
             <div className={style['show-product-container']}>
                 <div className={style['show-image']}>
                     <div>
-                        <Link to={`/category/${categoryId}`}>
+                        <Link to={document.location.hash.includes('tags') ? '/tags' : `/category/${categoryId}`}>
                             <i className="fa-solid fa-arrow-left"></i>
                         </Link>
                         <UserCartLink className={style['cart']} />

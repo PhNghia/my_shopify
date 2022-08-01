@@ -32,7 +32,8 @@ export default function ModalProduct({ categoryId, type, setType, productId }) {
             title: nameProductRef.current.value,
             oldPrice: oldPriceProductRef.current.value,
             newPrice: newPriceProductRef.current.value,
-            imgUrl: imgUrlProductRef.current.value
+            imgUrl: imgUrlProductRef.current.value,
+            categoryId
         }
         if (type === 'add') {
             addProductFromAdmin(categoryId, newProduct)
