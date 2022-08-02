@@ -46,6 +46,7 @@ export default function Products({ categoryId }) {
 
     function hanldeFocus() {
         dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+        dispatch(setInputOfCustomSearch(inputSearchRef.current.value))
         setInput('')
         inputSearchRef.current.style.color = '#555'
     }
@@ -53,6 +54,7 @@ export default function Products({ categoryId }) {
     function hanldeBlur() {
         if (inputSearchRef.current.value !== '') {
             dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+            dispatch(setInputOfCustomSearch(inputSearchRef.current.value))
             return
         }
         setInput(() => {
@@ -123,6 +125,7 @@ export default function Products({ categoryId }) {
                     })
                 })
                 dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+                dispatch(setInputOfCustomSearch(inputSearchRef.current.value))
             }
         }, 600)
 

@@ -19,8 +19,9 @@ const inititalState = () => {
     }
 
     const valueInLocalStorage = JSON.parse(localStorage.getItem('reducerState'))
-    if (valueInLocalStorage) return { ...valueInLocalStorage}
-    return inititalState
+    if (!valueInLocalStorage) return inititalState
+    if ([...Object.keys(valueInLocalStorage)].length !== [...Object.keys(inititalState)].length) return inititalState
+    return { ...valueInLocalStorage}
 }
 
 export const setPathOfLocation = payload => {
@@ -98,18 +99,6 @@ export function useReducerContext() {
 export function ReducerProvider({ children }) {
 
     const [state, dispatch] = useReducer(reducer, inititalState())
-
-    useEffect(() => {
-        function handleBeforeUnLoad(e) {
-            e.returnValue = null
-        }
-
-        window.addEventListener('beforeunload', handleBeforeUnLoad)
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnLoad)
-        }
-    }, [])
 
     useEffect(() => {
         localStorage.setItem('reducerState', JSON.stringify(state))

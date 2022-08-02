@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const { categories, orders, testStatusAdmin, getOrdersFromAdmin } = useDatabase()
   const { setCurrentAdmin } = useAuth()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [state, dispatch] = useReducerContext()
 
   // console.log(state)

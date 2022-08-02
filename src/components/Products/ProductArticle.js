@@ -21,8 +21,9 @@ export default function ProductArticle({ categoryId, productId }) {
     const { currentUser } = useAuth()
     const { categories, addCartFromCurrentUser } = useDatabase()
     const product = useMemo(() => {
-        return (categories.find(category => category.id === categoryId).products)[productId]
-    }, [])
+        const category = categories.find(category => category.id === categoryId)
+        if (category) return category.products[productId]
+    })
 
     function handleAddProduct() {
         if (!currentUser) {
