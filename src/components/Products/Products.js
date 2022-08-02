@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useDatabase } from '../../contexts/DatabaseContext'
-import { useReducerContext, setInputOfCustomSearch, setProductsOfCustomSearch } from '../../contexts/ReducerContext'
+import { useReducerContext, setInputOfCustomSearch, setProductsOfCustomSearch, setPrevInputOfCustomSearch, setInputOfCategorySearch } from '../../contexts/ReducerContext'
+import Loading from '../Loading'
 import style from './Products.module.css'
 
 export default function Products({ categoryId }) {
@@ -20,32 +21,78 @@ export default function Products({ categoryId }) {
         }).flat(Infinity)
     }, [])
     const [input, setInput] = useState(() => {
-        if (category) return category.name
+        if (category) return state.inputOfCategorySearch ? state.inputOfCategorySearch : category.name
 
         return state.inputOfCustomSearch
     })
     const [products, setProducts] = useState(() => {
-        if (category) return [...defaultProducts]
+        if (category) {
+            switch (state.inputOfCategorySearch) {
+                case '':
+                case category.name:
+                    return [...defaultProducts]
+                default:
+                    const arrayValueOfInput = state.inputOfCategorySearch.trim().split(' ')
+                    return defaultProducts.filter(product => {
+                        const isValid = arrayValueOfInput.some(value => product.title.toLowerCase().includes(value.toLowerCase()))
+                        return isValid
+                    })
+            }
+        }
         return defaultProducts.filter(product => {
             return product.title.toLowerCase().includes(state.inputOfCustomSearch.toLowerCase())
         })
     })
 
-    useEffect(() => {
-        if (!category) inputSearchRef.current.style.color = '#555'
+    function hanldeFocus() {
+        dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+        setInput('')
+        inputSearchRef.current.style.color = '#555'
+    }
 
-        inputSearchRef.current.onfocus = () => {
-            setInput('')
+    function hanldeBlur() {
+        if (inputSearchRef.current.value !== '') {
+            dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+            return
+        }
+        setInput(() => {
+            if (category) return category.name
+            return state.prevInputOfCustomSearch.value
+        })
+        if (category) {
+            switch (inputSearchRef.current.value) {
+                case '':
+                case category.name:
+                    inputSearchRef.current.style.color = "var(--primary)"
+                    break
+                default:
+                    inputSearchRef.current.style.color = "#555"
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (category) {
+            switch (state.inputOfCategorySearch) {
+                case '':
+                case category.name:
+                    inputSearchRef.current.style.color = "var(--primary)"
+                    break
+                default:
+                    inputSearchRef.current.style.color = '#555'
+            }
+        } else {
             inputSearchRef.current.style.color = '#555'
         }
 
-        inputSearchRef.current.onblur = () => {
-            if (inputSearchRef.current.value) return
-            setInput(() => {
-                if (category) return category.name
-                return state.inputOfCustomSearch
-            })
-            if (category) inputSearchRef.current.style.color = 'var(--primary)'
+        inputSearchRef.current.addEventListener('focus', hanldeFocus)
+
+        inputSearchRef.current.addEventListener('blur', hanldeBlur)
+
+        return () => {
+            if (!inputSearchRef.current) return
+            inputSearchRef.current.removeEventListener('focus', hanldeFocus)
+            inputSearchRef.current.removeEventListener('blur', hanldeBlur)
         }
     }, [])
 
@@ -65,15 +112,18 @@ export default function Products({ categoryId }) {
                             })
                     }
                 })
+                dispatch(setInputOfCategorySearch(inputSearchRef.current.value))
                 return
             }
 
-            if (input.trim()) setProducts(() => {
-                dispatch(setInputOfCustomSearch(input))
-                return defaultProducts.filter(product => {
-                    return product.title.toLowerCase().includes(input.toLowerCase())
+            if (input.trim() !== '') {
+                setProducts(() => {
+                    return defaultProducts.filter(product => {
+                        return product.title.toLowerCase().includes(input.toLowerCase())
+                    })
                 })
-            })
+                dispatch(setPrevInputOfCustomSearch(inputSearchRef.current.value))
+            }
         }, 600)
 
         return () => {
@@ -112,7 +162,13 @@ export default function Products({ categoryId }) {
             {products.length > 0 && (
                 <div className={style['contain']}>
                     {products.map(product => (
-                        <Link to={`${category ? `/category/${product.categoryId}/` : '/tags/'}${product.id}`} key={product.id} className={style['article']}>
+                        <Link to={`${category ? `/category/${product.categoryId}/` : '/tags/'}${product.id}`} key={product.id} className={style['article']} onClick={() => {
+                            if (category) {
+                                dispatch(setInputOfCategorySearch(inputSearchRef.current.value))
+                                return
+                            }
+                            dispatch(setInputOfCustomSearch(inputSearchRef.current.value))
+                        }}>
                             <div className={style['product-img']}>
                                 <img src={product.imgUrl} alt={'ảnh ' + product.title} />
                             </div>

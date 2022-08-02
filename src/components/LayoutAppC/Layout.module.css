@@ -21,7 +21,7 @@
     padding: 3px;
 }
 
-.search > span {
+.search > button {
     display: inline-block;
     padding: 8px 20px;
     color: #fff;
@@ -33,7 +33,7 @@
     transition: all 0.2s;
 }
 
-.search > span:hover {
+.search > button:hover {
     opacity: 0.94;
 }
 

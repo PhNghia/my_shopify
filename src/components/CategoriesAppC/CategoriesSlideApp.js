@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDatabase } from '../../contexts/DatabaseContext'
+import { useReducerContext, setInputOfCategorySearch } from '../../contexts/ReducerContext'
 import LayoutApp from '../LayoutAppC/LayoutApp'
 import style from './CategoriesApp.module.css'
 
@@ -9,6 +10,7 @@ export default function CategoriesSlideApp() {
   const { categories } = useDatabase()
   const [endLeft, setEndLeft] = useState(false)
   const [endRight, setEndRight] = useState(false)
+  const [state, dispatch] = useReducerContext()
 
   useEffect(() => {
     const carouselElement = document.querySelector(`.${style['carousel']}`)
@@ -77,7 +79,7 @@ export default function CategoriesSlideApp() {
           <div className={style['category-container']}>
             <div className={style["carousel"]}>
               {categories.map(category => (
-                <Link to={`/category/${category.id}`} key={category.id} className={style['article']}>
+                <Link to={`/category/${category.id}`} key={category.id} className={style['article']} onClick={() => dispatch(setInputOfCategorySearch(category.name))}>
                   <div className={style['image']}>
                     <img src={category.imgUrl} alt={category.name} />
                   </div>

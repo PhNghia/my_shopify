@@ -25,6 +25,8 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [state, dispatch] = useReducerContext()
 
+  // console.log(state)
+
   useEffect(() => {
     if (categories.length === 0) {
       setLoading(true)
