@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDatabase } from '../../contexts/DatabaseContext'
 import { useReducerContext } from '../../contexts/ReducerContext'
+import ProductShow from '../ProductShow/ProductShow'
 import ModalConfirmRemove from './ModalConfirmRemove'
 import style from './UserCart.module.css'
 
@@ -37,6 +38,10 @@ export default function UserCart() {
         decreaseQuantityCartItem(product)
     }
 
+    function handleIncreaseQuantity (product) {
+        increaseQuantityCartItem(product)
+    }
+
     function handleBuyProducts(e) {
         const orderProducts = carts.filter(product => product.isChoosed)
         if (orderProducts.length <= 0) {
@@ -64,29 +69,15 @@ export default function UserCart() {
                 {carts.length > 0 && (<div className={style['container']}>
                     <div className={style['main']}>
                         <div className={style['list']}>
-                            {carts.map((item, index) => (
-                                <div key={index} className={style['item']}>
-                                    <input type="checkbox" checked={item.isChoosed} onChange={(e) => updateCartFromUser(item, { isChoosed: e.target.checked })} />
-                                    <img src={item.imgUrl} alt={`ảnh ${item.title}`} />
-                                    <div className={style['content']}>
-                                        <h4 className={style['product-name']}>{item.title}</h4>
-                                        <div className={style['show-price']}>
-                                            <span className={style['show-old-price']}>
-                                                <span>đ</span>
-                                                {Number(item.oldPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                            </span>
-                                            <span className={style['show-new-price']}>
-                                                <span>đ</span>
-                                                {Number(item.newPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                            </span>
-                                        </div>
-                                        <div className={style['quantity']}>
-                                            <button onClick={() => handleDecreaseQuantity(item)}><i className="fa-solid fa-minus"></i></button>
-                                            <strong>{item.quantity}</strong>
-                                            <button onClick={() => increaseQuantityCartItem(item)}><i className="fa-solid fa-plus"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
+                            {carts.map((item) => (
+                                <ProductShow 
+                                    key={item.id} 
+                                    product={item} 
+                                    readonly={false}
+                                    inputOnChangeCallback={(e) => updateCartFromUser(item, { isChoosed: e.target.checked })}
+                                    handleDecreaseQuantityCallback={() => handleDecreaseQuantity(item)}
+                                    handleIncreaseQuantityCallback={() => handleIncreaseQuantity(item)}
+                                />
                             ))}
                         </div>
 

@@ -1,0 +1,368 @@
+body {
+    overflow-y: scroll;
+}
+
+.navbar {
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    position: relative;
+    height: 50px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.75rem;
+}
+
+.navbar > a {
+    position: absolute;
+    left: 1rem;
+    color: var(--primary);
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-right: 2rem;
+}
+
+.navbar > h3 {
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.75rem;
+    color: #ee4d2d;
+    text-align: center;
+}
+
+.empty-announcement {
+    padding-top: 28%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.empty-announcement > img {
+    width: 120px;
+}
+
+.empty-title {
+    padding: 1rem 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    padding: 0 1rem;
+    margin: 2rem auto 4rem;
+}
+
+.box {
+    width: 100%;
+}
+
+.list-mail > div {
+    position: relative;
+    margin-bottom: 1rem;
+    user-select: none;
+}
+
+.new-mail {
+    position: absolute;
+    font-size: 10px;
+    color: var(--primary);
+    background-color: rgba(255,212,36,1);
+    padding: 2px 14px;
+    top: 3px;
+    left: -4px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 1;
+}
+
+.new-mail::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 4px solid rgba(255,212,36,1);
+    border-left: 4px solid transparent;
+    top: 100%;
+    left: 0;
+    filter: brightness(60%);
+}
+
+.skin-announ {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: rgba(238,77,45, 0.8);
+    color: white;
+    border-radius: 4px;
+    transition: all .2s;
+    cursor: pointer;
+}
+
+.skin-announ.seen {
+    background-color: rgba(238,77,45, 0.6);
+}
+
+.skin-announ:hover {
+    background-color: rgba(238,77,45, 0.6);
+}
+
+.mail-icon > span {
+    font-size: 32px;
+    color: white;
+    margin-right: 1rem;
+}
+
+.close-mail {
+    position: relative;
+}
+
+.mail-title {
+    font-size: 16px;
+    margin-right: auto;
+    font-weight: 500;
+    display: -webkit-box;
+    word-wrap: break-word;
+    white-space: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.mail-time {
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+.only-content-announ {
+    display: none;
+}
+
+.content-announ {
+    height: 0;
+    overflow: hidden;
+    transition: all .3s;
+}   
+
+.content-announ > div {
+    margin: 1rem 0;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.content-announ, .only-content-announ > div > h3 {
+    color: #999;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.content-announ, .only-content-announ > div > h3 > span {
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.description {
+    padding-left: 10px;
+}
+
+.description > div:nth-child(2) {
+    margin-top: 16px;
+}   
+
+.child-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.child-title:last-child {
+    margin-top: 1rem;
+}
+
+.child-title ~ div {
+    margin-left: 1rem;
+}
+
+.child-products {
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px;   
+    border-bottom-left-radius: 5px;   
+}
+
+.child-products > div {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.child-products::-webkit-scrollbar {
+    width: 4px;
+    background-color: #f2f2f2;
+}
+
+.child-products::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+.child-products > div {
+    border-radius: 0;
+}
+
+.message {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    line-height: 20px;
+}
+
+.message > span {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.remove {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.remove > button {
+    padding: 6px 18px;
+    border-radius: 3px;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.remove > button:hover {
+    background-color:rgba(238,77,45, 0.6);
+}
+
+.remove-all {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.remove-all:hover {
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+.remove-all > button {
+    color: var(--primary);
+    font-size: 18px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.modal-confirm-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .empty-announcement {
+        padding-top: 15%;
+    }
+}
+
+@media (min-width: 840px) {
+    .container {
+        margin-bottom: 1rem;
+    }
+
+    .box {
+        display: flex;
+        min-height: 725px;
+    }
+
+    .box > div:first-child {
+        background-color: rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .list-mail {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        padding: 7px 10px 7px 7px;
+    }
+
+    .list-mail::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    .list-mail::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+    }
+
+    .list-mail > div {
+        width: 420px;
+        max-width: 100%;
+    }
+
+    .content-announ {
+        display: none;
+    }
+
+    .only-content-announ {
+        position: relative;
+        flex: 1;
+        display: inline-block;
+        width: 100%;
+        padding: 7px 16px 14px;
+        background-color: rgba(0,0,0,0.08);
+    }
+
+    .only-content-announ > div {
+        width: 100%;
+    }
+
+    .description {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .remove {
+        justify-content: center;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .remove > button {
+        padding: 10px 30px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .remove-all {
+        position: initial;
+    }
+}

@@ -27,7 +27,8 @@
 
 .container {
     margin: 0 auto;
-    width: min(100%, 880px);
+    width: 1200px;
+    max-width: 100%;
     padding: 1.5rem 0.75rem;
 }
 

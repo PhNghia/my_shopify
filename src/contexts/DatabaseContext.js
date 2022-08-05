@@ -15,15 +15,18 @@ export function DatabaseProvider({ children }) {
     const [orders, setOrders] = useState([])
     const [categories, setCategories] = useState([])
     const [carts, setCarts] = useState([])
+    const [announcements, setAnnouncemnets] = useState([])
     const { currentUser, currentAdmin } = useAuth()
 
     useEffect(() => {
         if (currentUser) {
             getCurrentUserCarts()
+            getAnnouncementsFromUser()
             return
         }
         
         setCarts([])
+        setAnnouncemnets([])
         
     }, [currentUser])
     
@@ -209,10 +212,77 @@ export function DatabaseProvider({ children }) {
         })
     }
 
+    function getAnnouncementsFromUser () {
+        const anounceRef = ref(database, `announcements/${currentUser.uid}`)
+        onValue(anounceRef, (snapshot) => {
+            const data = snapshot.val()
+            if (data) {
+                const keys = [...Object.keys(data)]
+                const announces = keys.map(key => {
+                    const newProducts = [...Object.values(data[key].products)]
+                    return {
+                        ...data[key],
+                        products: newProducts
+                    }
+                })
+                setAnnouncemnets(announces)
+            } else {
+                setAnnouncemnets([])
+            }
+        })  
+    }
+
+    function addAnnouncementToUser (order, type, reason) {
+        const date = new Date()
+        const title = type === "resolve" ? 'Đơn hàng đã được nhận' : 'Đơn hàng đã bị hủy'
+        const message = (() => {
+            switch (type) {
+                case "resolve":
+                    return "Đơn hàng của quý khách đã được nhận và đang chuẩn bị, sản phẩm sẽ được giao trong thời gian ngắn nhất. Mơn quý khách đã ủng hộ!"
+                case "reject":
+                    if (reason) return reason
+                    return `Đơn hàng của quý khách đã bị hủy vì không hợp lệ. Cửa hàng xin lỗi vì sự bất tiện này. Mơn quý khách đã ủng hộ!`
+                default:
+                    throw new Error('Invalid')
+            }
+        })()
+        const announceRef = ref(database, `announcements/${order.uid}/${date.getTime()}`)
+        const contentAnnounce = { 
+            ...order,
+            status: type,
+            timeStamp: date.getTime(),
+            dateSendMail: date.toString(),
+            message,
+            title,
+            seen: false
+        }
+        set(announceRef, {
+            ...contentAnnounce
+        })
+    } 
+
+    function updateAnnouncement (announcement, options) {
+        const path = `announcements/${currentUser.uid}/${announcement.timeStamp}`
+        update(ref(database), {
+            [path]: { ...options }
+        })
+    }
+
+    function removeAnnouncement (announcements) {
+        if (announcements instanceof Array) {
+            announcements.forEach(announcement => {
+                remove(ref(database, `announcements/${currentUser.uid}/${announcement.timeStamp}`))
+            })
+            return
+        }
+        remove(ref(database, `announcements/${currentUser.uid}/${announcements.timeStamp}`))
+    }
+
     const value = {
         orders,
         carts,
         categories,
+        announcements,
         testStatusAdmin,
         loginWithAdmin,
         setStatusAdmin,
@@ -231,7 +301,10 @@ export function DatabaseProvider({ children }) {
         deleteProductFromAdmin,
         addOrderFromUser,
         updateCartFromUser,
-        deleteProductInSideCartFromUser
+        deleteProductInSideCartFromUser,
+        addAnnouncementToUser,
+        updateAnnouncement,
+        removeAnnouncement
     }
 
     return (

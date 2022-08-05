@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDatabase } from '../../contexts/DatabaseContext'
+import ProductShow from '../ProductShow/ProductShow'
 import ModalAnnouncement from '../ModalAnnouncement/ModalAnnouncement'
 import style from './OrderProductsConfirm.module.css'
 
@@ -57,25 +58,7 @@ export default function OrderProductsConfirm() {
 
             <div className={style['container']}>
                 <div className={style['order-list']}>
-                    {products.map(product => (
-                        <div key={product.id} className={style['order-item']}>
-                            <img src={product.imgUrl} alt={`ảnh ${product.title}`} />
-                            <div className={style['content']}>
-                                <h4 className={style['product-name']}>{product.title}</h4>
-                                <div className={style['show-price']}>
-                                    <span className={style['show-old-price']}>
-                                        <span>đ</span>
-                                        {Number(product.oldPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                    </span>
-                                    <span className={style['show-new-price']}>
-                                        <span>đ</span>
-                                        {Number(product.newPrice).toLocaleString('en-US').replaceAll(',', '.')}
-                                    </span>
-                                </div>
-                                <p className={style['quantity']}>Số lượng: <i className="fa-solid fa-xmark"></i><span>{product.quantity}</span></p>
-                            </div>
-                        </div>
-                    ))}
+                    {products.map(product => (<ProductShow key={product.id} readonly product={product} />))}
 
                     <div className={style['total-price']}>
                         <p>Tổng: </p>

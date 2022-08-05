@@ -64,8 +64,8 @@
     margin: 0 auto;
 }
 
-.list {
-    
+.list > div ~ div {
+    margin-top: 1rem;    
 }
 
 .item {

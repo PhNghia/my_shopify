@@ -190,6 +190,7 @@
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+    transition: all .2s;
 }
 
 .btn-accept {
@@ -197,14 +198,18 @@
     color: white;
 }
 
-.btn-cancel {
-    background-color: #f2f2f2;
-    color: #333;
+.btn-accept:hover {
+    background-color: #f05d40;
 }
 
-.form-actions > button.confirm {
-    opacity: 0.5;
-    cursor: not-allowed;
+.btn-cancel {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-cancel:hover {
+    background-color: rgba(0,0,0,0.02);
 }
 
 @media (min-width: 360px) {

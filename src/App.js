@@ -12,6 +12,7 @@ import ProductArticle from './components/Products/ProductArticle'
 import UserCart from './components/UserCart/UserCart'
 import OrderProductsConfirm from './components/OrderProductsConfirm/OrderProductsConfirm'
 import UserProfile from './components/UserProfile/UserProfile'
+import Announcement from './components/Announcement/Announcement'
 import AdminPage from './components/Admin/AdminPage';
 import ShowAllOfOrder from './components/Admin/ShowAllOfOrder/ShowAllOfOrder';
 import AdminProducts from './components/Admin/AdminProducts'
@@ -24,8 +25,6 @@ function App() {
   const { setCurrentAdmin } = useAuth()
   const [loading, setLoading] = useState(true)
   const [state, dispatch] = useReducerContext()
-
-  // console.log(state)
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -73,6 +72,7 @@ function App() {
         <Route path="/user_cart" element={<UserCart />} />
         <Route path="/confirm_order" element={<OrderProductsConfirm />} />
         <Route path="/user_profile" element={<UserProfile />} />
+        <Route path="/announcement" element={<Announcement />} />
         <Route path="/admin" element={<AdminPage />}>
           <Route index element={<Orders />} />
           {categories.map(category => (<Route key={category.id} path={`category/${category.id}`} element={<AdminProducts id={category.id} />} />))}

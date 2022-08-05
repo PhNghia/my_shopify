@@ -1,0 +1,120 @@
+.item {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.item>input {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+}
+
+.item > img {
+    width: 80px;
+    display: block;
+    margin-right: 1rem;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.product-name {
+    font-size: 15px;
+    height: auto;
+    font-weight: 600;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.show-price {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0 6px;
+}
+
+.show-old-price {
+    font-size: 14px;
+    color: #888;
+    text-decoration: line-through;
+    margin-right: 0.5rem;
+}
+
+.show-new-price {
+    font-size: 16px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.show-old-price>span,
+.show-new-price>span {
+    font-size: 10px;
+    position: relative;
+    top: -2px;
+}
+
+.quantity-readonly {
+    color: #333;
+}
+
+.quantity-readonly>i {
+    font-size: 12px;
+}
+
+.quantity-readonly>span {
+    font-size: 16px;
+}
+
+.quantity-none-readonly {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-none-readonly > strong {
+    display: inline-block;
+    width: 40px;
+    font-size: 16px;    
+    text-align: center;
+}
+
+.quantity-none-readonly > button {
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.quantity-none-readonly > button:hover, 
+.quantity-none-readonly > button:active {
+    background-color: #f2f2f2;
+}
+
+.total-price {
+    max-width: 300px;
+    display: flex;
+    justify-content: space-between;
+    float: right;
+    padding: 1rem 0rem;
+}
+
+.total-price>p {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.total-price>p:last-child {
+    color: var(--primary);
+    padding-left: 10px;
+}

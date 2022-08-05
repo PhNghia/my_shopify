@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserAccountLink, UserCartLink } from '../BenefitCs'
+import { UserAccountLink, UserCartLink, UserBellLink } from '../BenefitCs'
 import { useDatabase } from '../../contexts/DatabaseContext'
 import { useReducerContext, setInputOfCustomSearch, setPrevInputOfCustomSearch } from '../../contexts/ReducerContext'
 import style from './Layout.module.css'
@@ -18,8 +18,8 @@ export default function LayoutApp() {
     })
     const navigate = useNavigate()
 
-    function handleSearchProducts (e) {
-        // e.preventDefault()
+    function handleSearchProducts(e) {
+        e.preventDefault()
         if (!inputRef.current.value.trim()) return
         dispatch(setInputOfCustomSearch(inputRef.current.value))
         dispatch(setPrevInputOfCustomSearch(inputRef.current.value))
@@ -31,13 +31,18 @@ export default function LayoutApp() {
     return (
         <>
             <div className={style['container']}>
-                <div className={style['navbar']}>
+                <div className={style['navbar-top']}>
+                    <div>
+                        <UserAccountLink className={style['auth']} />
+                        <UserBellLink className={style['announcement']} />
+                    </div>
+                </div>
+                <div className={style['navbar-bottom']}>
                     <form className={style['search']} onSubmit={handleSearchProducts}>
                         <button type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>
-                        <input type="text" ref={inputRef} onKeyPress={e => { if (e.code === "Enter" ) handleSearchProducts() }}/>
+                        <input type="text" ref={inputRef} />
                     </form>
                     <UserCartLink className={style['cart']} />
-                    <UserAccountLink className={style['auth']} />
                 </div>
             </div>
         </>

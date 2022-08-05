@@ -1,27 +1,37 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDatabase } from '../../../contexts/DatabaseContext'
+import OrderShowInformations from '../../OrderShowInformartions/OrderShowInformations'
+import ModalCancelReason from './ModalCancelReason'
 import ModalAnnouncement from '../../ModalAnnouncement/ModalAnnouncement'
 import style from './ShowAllOfOrder.module.css'
 
 export default function ShowAllOfOrder({ order }) {
 
     const [showAccept, setShowAccept] = useState(false)
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false)
     const [showCancel, setShowCancel] = useState(false)
+    const [cancel, setCancel] = useState(false)
     const products = useMemo(() => {
         return [...Object.values(order.products)]
     }, [])
-    const { orders, updateOrderFromAdmin } = useDatabase()
+    const { updateOrderFromAdmin, addAnnouncementToUser } = useDatabase()
 
     function handleAccept() {
         setShowAccept(true)
         updateOrderFromAdmin(order, 'resolve')
+        addAnnouncementToUser(order, 'resolve')
     }
 
-    function handleCancel() {
-        setShowCancel(true)
-        updateOrderFromAdmin(order, 'reject')
+    function handleShowCancelConfirm() {
+        setShowCancelConfirm(true)
     }
+
+    useEffect(() => {
+        if (cancel) {
+            setShowCancel(true)
+        }
+    }, [cancel])
 
     return (
         <>
@@ -54,7 +64,14 @@ export default function ShowAllOfOrder({ order }) {
                     ))}
                 </div>
 
-                <div>
+                <OrderShowInformations
+                    order={order}
+                    readonly={false}
+                    handleAcceptCallback={handleAccept}
+                    handleShowCancelConfirmCallback={handleShowCancelConfirm}
+                />
+
+                {/* <div>
                     <div className={style['form']}>
                         <div className={style['form-group']}>
                             <label>Tổng</label>
@@ -95,11 +112,11 @@ export default function ShowAllOfOrder({ order }) {
                         {order.status === 'waiting' && (
                             <div className={style['form-actions']}>
                                 <button className={style['btn-accept']} onClick={handleAccept}>Nhận</button>
-                                <button className={style['btn-cancel']} onClick={handleCancel}>Hủy</button>
+                                <button className={style['btn-cancel']} onClick={handleShowCancelConfirm}>Hủy</button>
                             </div>
                         )}
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <ModalAnnouncement
@@ -114,6 +131,12 @@ export default function ShowAllOfOrder({ order }) {
             >
                 Đã hủy đơn hàng này!
             </ModalAnnouncement>
+            <ModalCancelReason
+                order={order}
+                show={showCancelConfirm}
+                setShow={setShowCancelConfirm}
+                setCancel={setCancel}
+            />
         </>
     )
 }

@@ -46,7 +46,7 @@ export default function CategoriesSlideApp() {
 
     const observerLeft = new IntersectionObserver(callbackOfLeft, optionsLeft)
     const observerRight = new IntersectionObserver(callbackOfRight, optionsRight)
-    const INDEX_OF_LAST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT = 12
+    const INDEX_OF_LAST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT = categories.length > 12 ? 12 : categories.length - 1
     const INDEX_OF_FIRST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT = 0
     observerLeft.observe(articles[INDEX_OF_FIRST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT])
     observerRight.observe(articles[INDEX_OF_LAST_ARTICLE_ON_FIRST_ROW_OF_CAROUSEL_ELEMENT])

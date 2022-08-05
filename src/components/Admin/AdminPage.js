@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useDatabase } from '../../contexts/DatabaseContext'
-import { Outlet, Link, useLocation } from 'react-router-dom'
+import { Outlet, Link } from 'react-router-dom'
 import Loading from '../Loading'
 import AdminController from './AdminController'
 import formAuthStyle from '../../stylesModule/FormAuth.module.css'
@@ -35,7 +35,7 @@ export default function AdminPage() {
     }
 
     useEffect(() => {
-        if (orders.length === 0 || !orders) {
+        if (!orders) {
             setLoading(true)
             return
         }
